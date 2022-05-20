@@ -20,6 +20,10 @@ or if using docker:
 
 ## Testing
 
+### Unit tests
+run  
+```go test```
+
 ### Manual
 1. test a password is valid  
 ```curl -d "{\"password\": \"RqGVydeNAU;,p7f*\"}" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword```
@@ -32,7 +36,8 @@ or if using docker:
 
 ## TODO
 - move REST api endpoint to a different file
-- use redis as a cache for common passwords
 - check idiomatic way of handling global state in golang / gin for the 'passwords' map
 - dynamically download passwords during build time (in docker build) 
 - use multi stage build to reduce image size
+- organize project layout by go standards
+- use redis as a cache for common passwords
