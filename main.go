@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
+	"errors"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,10 +26,40 @@ var passwords = map[string]bool{
 }
 
 func main() {
+
+	var err error
+	passwords, err = readPasswords("passwords.txt")
+	if err != nil {
+		panic(err)
+	}
+
 	router := gin.Default()
 	router.POST("/v1/validatePassword", validatePassword)
 
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
+}
+
+func readPasswords(passwordsFilePath string) (map[string]bool, error) {
+	file, err := os.Open(passwordsFilePath)
+	if err != nil {
+		log.Fatal(err)
+		return nil, errors.New("cannot open file")
+	}
+	defer file.Close()
+
+	passwords := make(map[string]bool)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		passwords[scanner.Text()] = true
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+		return nil, errors.New("scanner error")
+	}
+
+	return passwords, nil
 }
 
 func validatePassword(c *gin.Context) {
