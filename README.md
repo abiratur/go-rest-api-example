@@ -12,10 +12,12 @@ run this command from root
 ## Testing
 
 ### Manual
-1. test a password is valid
+1. test a password is valid  
+```curl -d "{\"password\": \"RqGVydeNAU;,p7f*\"}" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword```
 
-curl -d "{\"password\": \"RqGVydeNAU;,p7f*\"}" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword
+2. test a password is not valid  
+```curl -d "{\"password\": \"123456"}" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword```
 
-2. test a password is not valid
 
-curl -d "{\"password\": \"\"}" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword
+3. test a request is not valid  
+```curl -d "{ }" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword```
