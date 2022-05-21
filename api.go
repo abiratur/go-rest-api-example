@@ -6,6 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type PasswordsController struct {
+	// go doesn't have a 'hashset' type :/
+	// so we use a map instead: https://stackoverflow.com/questions/34018908/golang-why-dont-we-have-a-set-datastructure
+	Passwords map[string]bool
+}
+
 type validatePasswordRequest struct {
 	Password string `json:"password"`
 }
@@ -14,7 +20,7 @@ type validatePasswordResponse struct {
 	IsValid bool `json:"isValid"`
 }
 
-func validatePassword(c *gin.Context) {
+func (controller *PasswordsController) validatePassword(c *gin.Context) {
 
 	var request validatePasswordRequest
 
@@ -26,7 +32,7 @@ func validatePassword(c *gin.Context) {
 
 	response := validatePasswordResponse{IsValid: true}
 
-	if passwords[request.Password] {
+	if controller.Passwords[request.Password] {
 		response.IsValid = false
 	}
 

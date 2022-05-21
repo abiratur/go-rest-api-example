@@ -35,9 +35,9 @@ run
 ```curl -d "{ }" -H "Content-Type: application/json" -X POST localhost:8080/v1/validatePassword```
 
 ## TODO
-- move REST api endpoint to a different file
-- check idiomatic way of handling global state in golang / gin for the 'passwords' map
 - dynamically download passwords during build time (in docker build) 
+- add api endpoint unit tests
 - use multi stage build to reduce image size
 - organize project layout by go standards
+- add logs
 - use redis as a cache for common passwords
